@@ -11,7 +11,7 @@ public class javaTest {
 	/**
 	 * 
 	 */
-	public javaTest() {
+	public static void javaTest() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -19,7 +19,7 @@ public class javaTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		System.out.println("test");
 		System.out.println("Hello");
 
 	}
