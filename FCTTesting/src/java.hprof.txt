@@ -1,0 +1,732 @@
+JAVA PROFILE 1.0.1, created Mon Nov  2 08:56:57 2015
+
+Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+
+  - Neither the name of Oracle nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+Header for -agentlib:hprof (or -Xrunhprof) ASCII Output (JDK 5.0 JVMTI based)
+
+WARNING!  This file format is under development, and is subject to
+change without notice.
+
+This file contains the following types of records:
+
+THREAD START
+THREAD END      mark the lifetime of Java threads
+
+TRACE           represents a Java stack trace.  Each trace consists
+                of a series of stack frames.  Other records refer to
+                TRACEs to identify (1) where object allocations have
+                taken place, (2) the frames in which GC roots were
+                found, and (3) frequently executed methods.
+
+HEAP DUMP       is a complete snapshot of all live objects in the Java
+                heap.  Following distinctions are made:
+
+                ROOT    root set as determined by GC
+                CLS     classes 
+                OBJ     instances
+                ARR     arrays
+
+SITES           is a sorted list of allocation sites.  This identifies
+                the most heavily allocated object types, and the TRACE
+                at which those allocations occurred.
+
+CPU SAMPLES     is a statistical profile of program execution.  The VM
+                periodically samples all running threads, and assigns
+                a quantum to active TRACEs in those threads.  Entries
+                in this record are TRACEs ranked by the percentage of
+                total quanta they consumed; top-ranked TRACEs are
+                typically hot spots in the program.
+
+CPU TIME        is a profile of program execution obtained by measuring
+                the time spent in individual methods (excluding the time
+                spent in callees), as well as by counting the number of
+                times each method is called. Entries in this record are
+                TRACEs ranked by the percentage of total CPU time. The
+                "count" field indicates the number of times each TRACE 
+                is invoked.
+
+MONITOR TIME    is a profile of monitor contention obtained by measuring
+                the time spent by a thread waiting to enter a monitor.
+                Entries in this record are TRACEs ranked by the percentage
+                of total monitor contention time and a brief description
+                of the monitor.  The "count" field indicates the number of 
+                times the monitor was contended at that TRACE.
+
+MONITOR DUMP    is a complete snapshot of all the monitors and threads in 
+                the System.
+
+HEAP DUMP, SITES, CPU SAMPLES|TIME and MONITOR DUMP|TIME records are generated 
+at program exit.  They can also be obtained during program execution by typing 
+Ctrl-\ (on Solaris) or by typing Ctrl-Break (on Win32).
+
+--------
+
+THREAD START (obj=5000017c, id = 200002, name="HPROF gc_finish watcher", group="system")
+THREAD START (obj=5000017c, id = 200001, name="main", group="main")
+THREAD END (id = 200001)
+THREAD START (obj=5000017c, id = 200003, name="DestroyJavaVM", group="main")
+THREAD END (id = 200003)
+TRACE 301631:
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301629:
+	FCTTesting.ManyMethods.method101(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301630:
+	FCTTesting.ManyMethods.method102(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301621:
+	FCTTesting.ManyMethods.method93(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301625:
+	FCTTesting.ManyMethods.method97(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301626:
+	FCTTesting.ManyMethods.method98(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301615:
+	FCTTesting.ManyMethods.method87(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301627:
+	FCTTesting.ManyMethods.method99(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301624:
+	FCTTesting.ManyMethods.method96(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301616:
+	FCTTesting.ManyMethods.method88(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301618:
+	FCTTesting.ManyMethods.method90(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301619:
+	FCTTesting.ManyMethods.method91(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301620:
+	FCTTesting.ManyMethods.method92(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301623:
+	FCTTesting.ManyMethods.method95(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301622:
+	FCTTesting.ManyMethods.method94(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301612:
+	FCTTesting.ManyMethods.method84(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301614:
+	FCTTesting.ManyMethods.method86(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301617:
+	FCTTesting.ManyMethods.method89(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301604:
+	FCTTesting.ManyMethods.method76(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301628:
+	FCTTesting.ManyMethods.method100(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301607:
+	FCTTesting.ManyMethods.method79(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301611:
+	FCTTesting.ManyMethods.method83(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301609:
+	FCTTesting.ManyMethods.method81(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301608:
+	FCTTesting.ManyMethods.method80(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301606:
+	FCTTesting.ManyMethods.method78(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301594:
+	FCTTesting.ManyMethods.method66(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301596:
+	FCTTesting.ManyMethods.method68(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301599:
+	FCTTesting.ManyMethods.method71(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301610:
+	FCTTesting.ManyMethods.method82(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301593:
+	FCTTesting.ManyMethods.method65(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301601:
+	FCTTesting.ManyMethods.method73(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301613:
+	FCTTesting.ManyMethods.method85(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301598:
+	FCTTesting.ManyMethods.method70(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301600:
+	FCTTesting.ManyMethods.method72(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301605:
+	FCTTesting.ManyMethods.method77(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301602:
+	FCTTesting.ManyMethods.method74(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301591:
+	FCTTesting.ManyMethods.method63(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301592:
+	FCTTesting.ManyMethods.method64(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301603:
+	FCTTesting.ManyMethods.method75(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301587:
+	FCTTesting.ManyMethods.method59(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301590:
+	FCTTesting.ManyMethods.method62(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301597:
+	FCTTesting.ManyMethods.method69(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301589:
+	FCTTesting.ManyMethods.method61(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301595:
+	FCTTesting.ManyMethods.method67(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301588:
+	FCTTesting.ManyMethods.method60(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301584:
+	FCTTesting.ManyMethods.method56(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301586:
+	FCTTesting.ManyMethods.method58(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301582:
+	FCTTesting.ManyMethods.method54(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301578:
+	FCTTesting.ManyMethods.method50(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301585:
+	FCTTesting.ManyMethods.method57(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301581:
+	FCTTesting.ManyMethods.method53(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301575:
+	FCTTesting.ManyMethods.method47(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301583:
+	FCTTesting.ManyMethods.method55(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301568:
+	FCTTesting.ManyMethods.method40(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301577:
+	FCTTesting.ManyMethods.method49(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301565:
+	FCTTesting.ManyMethods.method37(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301572:
+	FCTTesting.ManyMethods.method44(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301574:
+	FCTTesting.ManyMethods.method46(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301579:
+	FCTTesting.ManyMethods.method51(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301576:
+	FCTTesting.ManyMethods.method48(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301569:
+	FCTTesting.ManyMethods.method41(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301580:
+	FCTTesting.ManyMethods.method52(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301570:
+	FCTTesting.ManyMethods.method42(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301571:
+	FCTTesting.ManyMethods.method43(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301567:
+	FCTTesting.ManyMethods.method39(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301566:
+	FCTTesting.ManyMethods.method38(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301573:
+	FCTTesting.ManyMethods.method45(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301556:
+	FCTTesting.ManyMethods.method28(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301561:
+	FCTTesting.ManyMethods.method33(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301563:
+	FCTTesting.ManyMethods.method35(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301558:
+	FCTTesting.ManyMethods.method30(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301551:
+	FCTTesting.ManyMethods.method23(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301557:
+	FCTTesting.ManyMethods.method29(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301564:
+	FCTTesting.ManyMethods.method36(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301559:
+	FCTTesting.ManyMethods.method31(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301560:
+	FCTTesting.ManyMethods.method32(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301562:
+	FCTTesting.ManyMethods.method34(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301550:
+	FCTTesting.ManyMethods.method22(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301555:
+	FCTTesting.ManyMethods.method27(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301552:
+	FCTTesting.ManyMethods.method24(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301554:
+	FCTTesting.ManyMethods.method26(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301544:
+	FCTTesting.ManyMethods.method16(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301553:
+	FCTTesting.ManyMethods.method25(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301545:
+	FCTTesting.ManyMethods.method17(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301547:
+	FCTTesting.ManyMethods.method19(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301546:
+	FCTTesting.ManyMethods.method18(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301548:
+	FCTTesting.ManyMethods.method20(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301549:
+	FCTTesting.ManyMethods.method21(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301543:
+	FCTTesting.ManyMethods.method15(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301536:
+	FCTTesting.ManyMethods.method8(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301538:
+	FCTTesting.ManyMethods.method10(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301541:
+	FCTTesting.ManyMethods.method13(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301542:
+	FCTTesting.ManyMethods.method14(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301540:
+	FCTTesting.ManyMethods.method12(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301534:
+	FCTTesting.ManyMethods.method6(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301535:
+	FCTTesting.ManyMethods.method7(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301539:
+	FCTTesting.ManyMethods.method11(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301537:
+	FCTTesting.ManyMethods.method9(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301533:
+	FCTTesting.ManyMethods.method5(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301530:
+	FCTTesting.ManyMethods.method2(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 300094:
+	java.lang.invoke.MethodHandleImpl.<clinit>(MethodHandleImpl.java:Unknown line)
+	java.lang.invoke.MethodHandle.<clinit>(MethodHandle.java:Unknown line)
+TRACE 300734:
+	java.lang.String.charAt(String.java:Unknown line)
+	java.io.UnixFileSystem.normalize(UnixFileSystem.java:Unknown line)
+	java.io.File.<init>(File.java:Unknown line)
+	sun.misc.URLClassPath$JarLoader.<init>(URLClassPath.java:Unknown line)
+TRACE 301219:
+	sun.net.www.protocol.file.Handler.createFileURLConnection(Handler.java:Unknown line)
+	sun.net.www.protocol.file.Handler.openConnection(Handler.java:Unknown line)
+	sun.net.www.protocol.file.Handler.openConnection(Handler.java:Unknown line)
+	java.net.URL.openConnection(URL.java:Unknown line)
+TRACE 301531:
+	FCTTesting.ManyMethods.method3(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 300022:
+	java.lang.Thread.<init>(Thread.java:Unknown line)
+TRACE 300092:
+	java.lang.ClassValue.<init>(ClassValue.java:Unknown line)
+	java.lang.invoke.MethodHandleImpl$4.<init>(MethodHandleImpl.java:Unknown line)
+	java.lang.invoke.MethodHandleImpl.<clinit>(MethodHandleImpl.java:Unknown line)
+	java.lang.invoke.MethodHandle.<clinit>(MethodHandle.java:Unknown line)
+TRACE 300100:
+	java.lang.invoke.MemberName$Factory.<clinit>(MemberName.java:Unknown line)
+	java.lang.invoke.MethodHandleImpl.initStatics(MethodHandleImpl.java:Unknown line)
+	java.lang.invoke.MethodHandle.<clinit>(MethodHandle.java:Unknown line)
+TRACE 300132:
+	java.lang.invoke.MethodHandleStatics$1.run(MethodHandleStatics.java:Unknown line)
+	java.lang.invoke.MethodHandleStatics$1.run(MethodHandleStatics.java:Unknown line)
+	java.lang.invoke.MethodHandleStatics.<clinit>(MethodHandleStatics.java:Unknown line)
+	java.lang.invoke.MethodHandle.<clinit>(MethodHandle.java:Unknown line)
+TRACE 300163:
+	java.lang.invoke.MethodHandle.<clinit>(MethodHandle.java:Unknown line)
+TRACE 300207:
+	java.lang.System.getProperty(System.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient$1.run(UsageTrackerClient.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient$1.run(UsageTrackerClient.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient.getPropertyPrivileged(UsageTrackerClient.java:Unknown line)
+TRACE 300212:
+	sun.usagetracker.UsageTrackerClient.<clinit>(UsageTrackerClient.java:Unknown line)
+	sun.misc.PostVMInitHook.trackJavaUsage(PostVMInitHook.java:Unknown line)
+	sun.misc.PostVMInitHook.run(PostVMInitHook.java:Unknown line)
+TRACE 300288:
+	java.io.File.<init>(File.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient$3.run(UsageTrackerClient.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient$3.run(UsageTrackerClient.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient.getConfigFilePrivileged(UsageTrackerClient.java:Unknown line)
+TRACE 300314:
+	java.lang.StringCoding.encode(StringCoding.java:Unknown line)
+	java.lang.String.getBytes(String.java:Unknown line)
+	java.io.UnixFileSystem.getBooleanAttributes(UnixFileSystem.java:Unknown line)
+	java.io.File.exists(File.java:Unknown line)
+TRACE 300355:
+	java.io.ExpiringCache.entryFor(ExpiringCache.java:Unknown line)
+	java.io.ExpiringCache.get(ExpiringCache.java:Unknown line)
+	java.io.UnixFileSystem.canonicalize(UnixFileSystem.java:Unknown line)
+	java.io.File.getCanonicalPath(File.java:Unknown line)
+TRACE 300432:
+	java.lang.String.length(String.java:Unknown line)
+	java.io.UnixFileSystem.normalize(UnixFileSystem.java:Unknown line)
+	java.io.File.<init>(File.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient.registerUsage(UsageTrackerClient.java:Unknown line)
+TRACE 300498:
+	java.io.FileOutputStream.write(FileOutputStream.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient.registerUsage(UsageTrackerClient.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient.setupAndTimestamp(UsageTrackerClient.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient.access$000(UsageTrackerClient.java:Unknown line)
+TRACE 300532:
+	sun.launcher.LauncherHelper.<clinit>(LauncherHelper.java:Unknown line)
+TRACE 300596:
+	java.lang.String.concat(String.java:Unknown line)
+	java.net.URLClassLoader$1.run(URLClassLoader.java:Unknown line)
+	java.net.URLClassLoader$1.run(URLClassLoader.java:Unknown line)
+	java.net.URLClassLoader.findClass(URLClassLoader.java:Unknown line)
+TRACE 300663:
+	java.net.URL.getQuery(URL.java:Unknown line)
+	java.net.URLStreamHandler.toExternalForm(URLStreamHandler.java:Unknown line)
+	java.net.URL.toExternalForm(URL.java:Unknown line)
+	java.net.URL.toString(URL.java:Unknown line)
+TRACE 300735:
+	java.io.UnixFileSystem.normalize(UnixFileSystem.java:Unknown line)
+	java.io.File.<init>(File.java:Unknown line)
+	sun.misc.URLClassPath$JarLoader.<init>(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath$3.run(URLClassPath.java:Unknown line)
+TRACE 300745:
+	java.util.HashMap.hash(HashMap.java:Unknown line)
+	java.util.HashMap.get(HashMap.java:Unknown line)
+	sun.misc.MetaIndex.forJar(MetaIndex.java:Unknown line)
+	sun.misc.URLClassPath$JarLoader.<init>(URLClassPath.java:Unknown line)
+TRACE 300748:
+	java.lang.String.compareTo(String.java:Unknown line)
+	java.io.UnixFileSystem.compare(UnixFileSystem.java:Unknown line)
+	java.io.File.compareTo(File.java:Unknown line)
+	java.io.File.equals(File.java:Unknown line)
+TRACE 300754:
+	sun.misc.MetaIndex.forJar(MetaIndex.java:Unknown line)
+	sun.misc.URLClassPath$JarLoader.<init>(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath$3.run(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath$3.run(URLClassPath.java:Unknown line)
+TRACE 300759:
+	java.io.File.getName(File.java:Unknown line)
+	java.io.UnixFileSystem.getBooleanAttributes(UnixFileSystem.java:Unknown line)
+	java.io.File.exists(File.java:Unknown line)
+	sun.misc.URLClassPath$JarLoader.<init>(URLClassPath.java:Unknown line)
+TRACE 300765:
+	sun.misc.URLClassPath$3.run(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath$3.run(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath.getLoader(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath.getLoader(URLClassPath.java:Unknown line)
+TRACE 300768:
+	sun.misc.URLClassPath$JarLoader.getClassPath(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath.getLoader(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath.getNextLoader(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath.getResource(URLClassPath.java:Unknown line)
+TRACE 300805:
+	java.net.URLClassLoader.findClass(URLClassLoader.java:Unknown line)
+	java.lang.ClassLoader.loadClass(ClassLoader.java:Unknown line)
+	java.lang.ClassLoader.loadClass(ClassLoader.java:Unknown line)
+	sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:Unknown line)
+TRACE 300850:
+	java.lang.String.<init>(String.java:Unknown line)
+	java.io.UnixFileSystem.canonicalize(UnixFileSystem.java:Unknown line)
+	java.io.File.getCanonicalPath(File.java:Unknown line)
+	java.io.File.getCanonicalFile(File.java:Unknown line)
+TRACE 300888:
+	java.lang.String.length(String.java:Unknown line)
+	java.lang.AbstractStringBuilder.append(AbstractStringBuilder.java:Unknown line)
+	java.lang.StringBuilder.append(StringBuilder.java:Unknown line)
+	java.net.URLStreamHandler.parseURL(URLStreamHandler.java:Unknown line)
+TRACE 301008:
+	java.lang.ClassLoader.getPackage(ClassLoader.java:Unknown line)
+	java.lang.ClassLoader.getPackage(ClassLoader.java:Unknown line)
+	java.net.URLClassLoader.getAndVerifyPackage(URLClassLoader.java:Unknown line)
+	java.net.URLClassLoader.definePackageInternal(URLClassLoader.java:Unknown line)
+TRACE 301068:
+	java.io.FileInputStream$1.close(FileInputStream.java:Unknown line)
+	java.io.FileDescriptor.closeAll(FileDescriptor.java:Unknown line)
+	java.io.FileInputStream.close(FileInputStream.java:Unknown line)
+	sun.misc.Resource.getBytes(Resource.java:Unknown line)
+TRACE 301131:
+	java.nio.DirectByteBuffer.asLongBuffer(DirectByteBuffer.java:Unknown line)
+	sun.misc.PerfCounter.<init>(PerfCounter.java:Unknown line)
+	sun.misc.PerfCounter.newPerfCounter(PerfCounter.java:Unknown line)
+	sun.misc.PerfCounter$CoreCounters.<clinit>(PerfCounter.java:Unknown line)
+TRACE 301132:
+	sun.misc.PerfCounter.<init>(PerfCounter.java:Unknown line)
+	sun.misc.PerfCounter.newPerfCounter(PerfCounter.java:Unknown line)
+	sun.misc.PerfCounter$CoreCounters.<clinit>(PerfCounter.java:Unknown line)
+	sun.misc.PerfCounter.getReadClassBytesTime(PerfCounter.java:Unknown line)
+TRACE 301149:
+	java.net.URLStreamHandler.getHostAddress(URLStreamHandler.java:Unknown line)
+	java.net.URLStreamHandler.hashCode(URLStreamHandler.java:Unknown line)
+	java.net.URL.hashCode(URL.java:Unknown line)
+	java.security.CodeSource.hashCode(CodeSource.java:Unknown line)
+TRACE 301257:
+	java.io.FilePermission$1.run(FilePermission.java:Unknown line)
+	java.io.FilePermission$1.run(FilePermission.java:Unknown line)
+	java.io.FilePermission.init(FilePermission.java:Unknown line)
+	java.io.FilePermission.<init>(FilePermission.java:Unknown line)
+TRACE 301326:
+	java.net.URLClassLoader.getPermissions(URLClassLoader.java:Unknown line)
+	sun.misc.Launcher$AppClassLoader.getPermissions(Launcher.java:Unknown line)
+	java.security.SecureClassLoader.getProtectionDomain(SecureClassLoader.java:Unknown line)
+	java.security.SecureClassLoader.defineClass(SecureClassLoader.java:Unknown line)
+TRACE 301348:
+	java.security.BasicPermission.newPermissionCollection(BasicPermission.java:Unknown line)
+	java.security.Permissions.getPermissionCollection(Permissions.java:Unknown line)
+	java.security.Permissions.add(Permissions.java:Unknown line)
+	sun.misc.Launcher$AppClassLoader.getPermissions(Launcher.java:Unknown line)
+TRACE 301433:
+	java.lang.ClassLoader.defineClass(ClassLoader.java:Unknown line)
+	java.security.SecureClassLoader.defineClass(SecureClassLoader.java:Unknown line)
+	java.net.URLClassLoader.defineClass(URLClassLoader.java:Unknown line)
+	java.net.URLClassLoader.access$100(URLClassLoader.java:Unknown line)
+TRACE 301494:
+	java.lang.Class.privateGetDeclaredMethods(Class.java:Unknown line)
+	java.lang.Class.privateGetMethodRecursive(Class.java:Unknown line)
+	java.lang.Class.getMethod0(Class.java:Unknown line)
+	java.lang.Class.getMethod(Class.java:Unknown line)
+TRACE 301516:
+	sun.launcher.LauncherHelper.checkAndLoadMain(LauncherHelper.java:Unknown line)
+TRACE 301528:
+	FCTTesting.ManyMethods.method0(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301529:
+	FCTTesting.ManyMethods.method1(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+TRACE 301532:
+	FCTTesting.ManyMethods.method4(ManyMethods.java:Unknown line)
+	FCTTesting.ManyMethods.main(ManyMethods.java:Unknown line)
+CPU TIME (ms) BEGIN (total = 12453) Mon Nov  2 08:57:10 2015
+rank   self  accum   count trace method
+   1 57,91% 57,91%       1 301631 FCTTesting.ManyMethods.main
+   2  0,86% 58,77%  102000 301629 FCTTesting.ManyMethods.method101
+   3  0,79% 59,56%  103000 301630 FCTTesting.ManyMethods.method102
+   4  0,78% 60,34%   94000 301621 FCTTesting.ManyMethods.method93
+   5  0,78% 61,12%   98000 301625 FCTTesting.ManyMethods.method97
+   6  0,78% 61,90%   99000 301626 FCTTesting.ManyMethods.method98
+   7  0,77% 62,67%   88000 301615 FCTTesting.ManyMethods.method87
+   8  0,76% 63,43%  100000 301627 FCTTesting.ManyMethods.method99
+   9  0,75% 64,18%   97000 301624 FCTTesting.ManyMethods.method96
+  10  0,73% 64,91%   89000 301616 FCTTesting.ManyMethods.method88
+  11  0,73% 65,64%   91000 301618 FCTTesting.ManyMethods.method90
+  12  0,73% 66,37%   92000 301619 FCTTesting.ManyMethods.method91
+  13  0,73% 67,10%   93000 301620 FCTTesting.ManyMethods.method92
+  14  0,73% 67,83%   96000 301623 FCTTesting.ManyMethods.method95
+  15  0,70% 68,53%   95000 301622 FCTTesting.ManyMethods.method94
+  16  0,69% 69,22%   85000 301612 FCTTesting.ManyMethods.method84
+  17  0,69% 69,91%   87000 301614 FCTTesting.ManyMethods.method86
+  18  0,68% 70,59%   90000 301617 FCTTesting.ManyMethods.method89
+  19  0,67% 71,27%   77000 301604 FCTTesting.ManyMethods.method76
+  20  0,67% 71,94%  101000 301628 FCTTesting.ManyMethods.method100
+  21  0,67% 72,61%   80000 301607 FCTTesting.ManyMethods.method79
+  22  0,67% 73,28%   84000 301611 FCTTesting.ManyMethods.method83
+  23  0,63% 73,91%   82000 301609 FCTTesting.ManyMethods.method81
+  24  0,63% 74,54%   81000 301608 FCTTesting.ManyMethods.method80
+  25  0,62% 75,15%   79000 301606 FCTTesting.ManyMethods.method78
+  26  0,60% 75,76%   67000 301594 FCTTesting.ManyMethods.method66
+  27  0,60% 76,36%   69000 301596 FCTTesting.ManyMethods.method68
+  28  0,60% 76,96%   72000 301599 FCTTesting.ManyMethods.method71
+  29  0,60% 77,56%   83000 301610 FCTTesting.ManyMethods.method82
+  30  0,59% 78,16%   66000 301593 FCTTesting.ManyMethods.method65
+  31  0,59% 78,75%   74000 301601 FCTTesting.ManyMethods.method73
+  32  0,58% 79,33%   86000 301613 FCTTesting.ManyMethods.method85
+  33  0,57% 79,90%   71000 301598 FCTTesting.ManyMethods.method70
+  34  0,57% 80,47%   73000 301600 FCTTesting.ManyMethods.method72
+  35  0,56% 81,03%   78000 301605 FCTTesting.ManyMethods.method77
+  36  0,55% 81,59%   75000 301602 FCTTesting.ManyMethods.method74
+  37  0,54% 82,12%   64000 301591 FCTTesting.ManyMethods.method63
+  38  0,53% 82,65%   65000 301592 FCTTesting.ManyMethods.method64
+  39  0,53% 83,18%   76000 301603 FCTTesting.ManyMethods.method75
+  40  0,51% 83,70%   60000 301587 FCTTesting.ManyMethods.method59
+  41  0,50% 84,20%   63000 301590 FCTTesting.ManyMethods.method62
+  42  0,49% 84,69%   70000 301597 FCTTesting.ManyMethods.method69
+  43  0,48% 85,17%   62000 301589 FCTTesting.ManyMethods.method61
+  44  0,48% 85,65%   68000 301595 FCTTesting.ManyMethods.method67
+  45  0,47% 86,12%   61000 301588 FCTTesting.ManyMethods.method60
+  46  0,46% 86,57%   57000 301584 FCTTesting.ManyMethods.method56
+  47  0,46% 87,03%   59000 301586 FCTTesting.ManyMethods.method58
+  48  0,43% 87,46%   55000 301582 FCTTesting.ManyMethods.method54
+  49  0,42% 87,87%   51000 301578 FCTTesting.ManyMethods.method50
+  50  0,42% 88,29%   58000 301585 FCTTesting.ManyMethods.method57
+  51  0,39% 88,69%   54000 301581 FCTTesting.ManyMethods.method53
+  52  0,39% 89,07%   48000 301575 FCTTesting.ManyMethods.method47
+  53  0,39% 89,46%   56000 301583 FCTTesting.ManyMethods.method55
+  54  0,37% 89,83%   41000 301568 FCTTesting.ManyMethods.method40
+  55  0,37% 90,20%   50000 301577 FCTTesting.ManyMethods.method49
+  56  0,36% 90,56%   38000 301565 FCTTesting.ManyMethods.method37
+  57  0,35% 90,91%   45000 301572 FCTTesting.ManyMethods.method44
+  58  0,35% 91,26%   47000 301574 FCTTesting.ManyMethods.method46
+  59  0,35% 91,62%   52000 301579 FCTTesting.ManyMethods.method51
+  60  0,35% 91,96%   49000 301576 FCTTesting.ManyMethods.method48
+  61  0,34% 92,30%   42000 301569 FCTTesting.ManyMethods.method41
+  62  0,34% 92,64%   53000 301580 FCTTesting.ManyMethods.method52
+  63  0,33% 92,97%   43000 301570 FCTTesting.ManyMethods.method42
+  64  0,33% 93,29%   44000 301571 FCTTesting.ManyMethods.method43
+  65  0,32% 93,62%   40000 301567 FCTTesting.ManyMethods.method39
+  66  0,30% 93,91%   39000 301566 FCTTesting.ManyMethods.method38
+  67  0,30% 94,21%   46000 301573 FCTTesting.ManyMethods.method45
+  68  0,28% 94,49%   29000 301556 FCTTesting.ManyMethods.method28
+  69  0,28% 94,77%   34000 301561 FCTTesting.ManyMethods.method33
+  70  0,28% 95,05%   36000 301563 FCTTesting.ManyMethods.method35
+  71  0,27% 95,33%   31000 301558 FCTTesting.ManyMethods.method30
+  72  0,26% 95,59%   24000 301551 FCTTesting.ManyMethods.method23
+  73  0,26% 95,85%   30000 301557 FCTTesting.ManyMethods.method29
+  74  0,25% 96,10%   37000 301564 FCTTesting.ManyMethods.method36
+  75  0,24% 96,34%   32000 301559 FCTTesting.ManyMethods.method31
+  76  0,24% 96,58%   33000 301560 FCTTesting.ManyMethods.method32
+  77  0,24% 96,82%   35000 301562 FCTTesting.ManyMethods.method34
+  78  0,21% 97,03%   23000 301550 FCTTesting.ManyMethods.method22
+  79  0,21% 97,24%   28000 301555 FCTTesting.ManyMethods.method27
+  80  0,19% 97,43%   25000 301552 FCTTesting.ManyMethods.method24
+  81  0,18% 97,62%   27000 301554 FCTTesting.ManyMethods.method26
+  82  0,18% 97,79%   17000 301544 FCTTesting.ManyMethods.method16
+  83  0,18% 97,97%   26000 301553 FCTTesting.ManyMethods.method25
+  84  0,16% 98,13%   18000 301545 FCTTesting.ManyMethods.method17
+  85  0,16% 98,29%   20000 301547 FCTTesting.ManyMethods.method19
+  86  0,14% 98,43%   19000 301546 FCTTesting.ManyMethods.method18
+  87  0,14% 98,58%   21000 301548 FCTTesting.ManyMethods.method20
+  88  0,14% 98,72%   22000 301549 FCTTesting.ManyMethods.method21
+  89  0,13% 98,84%   16000 301543 FCTTesting.ManyMethods.method15
+  90  0,10% 98,94%    9000 301536 FCTTesting.ManyMethods.method8
+  91  0,10% 99,04%   11000 301538 FCTTesting.ManyMethods.method10
+  92  0,10% 99,13%   14000 301541 FCTTesting.ManyMethods.method13
+  93  0,10% 99,23%   15000 301542 FCTTesting.ManyMethods.method14
+  94  0,07% 99,30%   13000 301540 FCTTesting.ManyMethods.method12
+  95  0,06% 99,37%    7000 301534 FCTTesting.ManyMethods.method6
+  96  0,06% 99,43%    8000 301535 FCTTesting.ManyMethods.method7
+  97  0,06% 99,49%   12000 301539 FCTTesting.ManyMethods.method11
+  98  0,06% 99,55%   10000 301537 FCTTesting.ManyMethods.method9
+  99  0,05% 99,60%    6000 301533 FCTTesting.ManyMethods.method5
+ 100  0,02% 99,62%    3000 301530 FCTTesting.ManyMethods.method2
+ 101  0,02% 99,64%       1 300094 java.lang.invoke.MethodHandleImpl.<clinit>
+ 102  0,02% 99,65%     506 300734 java.lang.String.charAt
+ 103  0,02% 99,67%       1 301219 sun.net.www.protocol.file.Handler.createFileURLConnection
+ 104  0,02% 99,69%    4000 301531 FCTTesting.ManyMethods.method3
+ 105  0,01% 99,69%       5 300022 java.lang.Thread.<init>
+ 106  0,01% 99,70%       1 300092 java.lang.ClassValue.<init>
+ 107  0,01% 99,71%       1 300100 java.lang.invoke.MemberName$Factory.<clinit>
+ 108  0,01% 99,72%       1 300132 java.lang.invoke.MethodHandleStatics$1.run
+ 109  0,01% 99,73%       1 300163 java.lang.invoke.MethodHandle.<clinit>
+ 110  0,01% 99,74%       3 300207 java.lang.System.getProperty
+ 111  0,01% 99,74%       1 300212 sun.usagetracker.UsageTrackerClient.<clinit>
+ 112  0,01% 99,75%       2 300288 java.io.File.<init>
+ 113  0,01% 99,76%      14 300314 java.lang.StringCoding.encode
+ 114  0,01% 99,77%       6 300355 java.io.ExpiringCache.entryFor
+ 115  0,01% 99,78%       2 300432 java.lang.String.length
+ 116  0,01% 99,78%       1 300498 java.io.FileOutputStream.write
+ 117  0,01% 99,79%       1 300532 sun.launcher.LauncherHelper.<clinit>
+ 118  0,01% 99,80%       2 300596 java.lang.String.concat
+ 119  0,01% 99,81%      22 300663 java.net.URL.getQuery
+ 120  0,01% 99,82%      10 300735 java.io.UnixFileSystem.normalize
+ 121  0,01% 99,82%      10 300745 java.util.HashMap.hash
+ 122  0,01% 99,83%      10 300748 java.lang.String.compareTo
+ 123  0,01% 99,84%      10 300754 sun.misc.MetaIndex.forJar
+ 124  0,01% 99,85%      10 300759 java.io.File.getName
+ 125  0,01% 99,86%      11 300765 sun.misc.URLClassPath$3.run
+ 126  0,01% 99,86%      10 300768 sun.misc.URLClassPath$JarLoader.getClassPath
+ 127  0,01% 99,87%       2 300805 java.net.URLClassLoader.findClass
+ 128  0,01% 99,88%       1 300850 java.lang.String.<init>
+ 129  0,01% 99,89%       6 300888 java.lang.String.length
+ 130  0,01% 99,90%       1 301008 java.lang.ClassLoader.getPackage
+ 131  0,01% 99,90%       1 301068 java.io.FileInputStream$1.close
+ 132  0,01% 99,91%       6 301131 java.nio.DirectByteBuffer.asLongBuffer
+ 133  0,01% 99,92%       6 301132 sun.misc.PerfCounter.<init>
+ 134  0,01% 99,93%       1 301149 java.net.URLStreamHandler.getHostAddress
+ 135  0,01% 99,94%       2 301257 java.io.FilePermission$1.run
+ 136  0,01% 99,94%       1 301326 java.net.URLClassLoader.getPermissions
+ 137  0,01% 99,95%       1 301348 java.security.BasicPermission.newPermissionCollection
+ 138  0,01% 99,96%       1 301433 java.lang.ClassLoader.defineClass
+ 139  0,01% 99,97%       1 301494 java.lang.Class.privateGetDeclaredMethods
+ 140  0,01% 99,98%       1 301516 sun.launcher.LauncherHelper.checkAndLoadMain
+ 141  0,01% 99,98%    1000 301528 FCTTesting.ManyMethods.method0
+ 142  0,01% 99,99%    2000 301529 FCTTesting.ManyMethods.method1
+ 143  0,01% 100,00%    5000 301532 FCTTesting.ManyMethods.method4
+CPU TIME (ms) END
